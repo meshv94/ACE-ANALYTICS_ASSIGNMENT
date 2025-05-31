@@ -3,8 +3,8 @@ const db = require("../db");
 const sendEmail = require("./sendEmail");
 
 const scheduleTaskChecker = () => {
-    // Run every minute
-    cron.schedule("* * * * *", async () => {
+    // Run every 15 minute
+    cron.schedule("*/15 * * * *", async () => {
         console.log("---- cron is running ------------ Checking for tasks due in 1 hour...");
 
         const now = new Date();
