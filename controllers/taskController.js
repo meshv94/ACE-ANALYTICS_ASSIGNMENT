@@ -2,11 +2,15 @@ const db = require("../db");
 
 // CREATE TASK
 exports.createTask = async (req, res) => {
-  const { title, description, due_date, priority, recurrence } = req.body;
+  let { title, description, due_date, priority, recurrence } = req.body;
   const userId = req.user.id;
 
   if (!title || !due_date || !priority) {
     return res.status(400).json({ message: "Missing required fields" });
+  }
+
+  if(recurrence !== "none" || recurrence !== "daily" || recurrence !== "weekly" || recurrence !== "monthly"){
+    recurrence = "none"
   }
 
   try {

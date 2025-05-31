@@ -28,7 +28,7 @@ app.use("/api/tasks", taskRoutes);
 const PORT = process.env.PORT || 5000;
 
 //cron jobs for email notification send
-scheduleTaskChecker();
+// scheduleTaskChecker();
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
