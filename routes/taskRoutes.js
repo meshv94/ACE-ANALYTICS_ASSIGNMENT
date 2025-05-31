@@ -1,17 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const {
-    createTask,
-    getTasks,
-    completeTask,
-} = require("../controllers/taskController");
+const taskController = require("../controllers/taskController");
+const authMiddleware = require("../middleware/authMiddleware");
 
-const verifyToken = require("../middleware/authMiddleware");
+router.use(authMiddleware);
 
-router.use(verifyToken); // protect all routes
-
-router.post("/", createTask);
-router.get("/", getTasks);
-router.patch("/:id/complete", completeTask);
+router.post("/create", taskController.createTask); // Create
+router.get("/complete", taskController.completeTask); // Complete
+router.get("/", taskController.getUserTasks); // List
 
 module.exports = router;
