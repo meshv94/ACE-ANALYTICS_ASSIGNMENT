@@ -5,6 +5,7 @@ const app = express();
 const authRoutes = require("./routes/authRoutes");
 const taskRoutes = require("./routes/taskRoutes");
 const logger = require("./middleware/logger");
+const scheduleTaskChecker = require("./utils/scheduler");
 
 app.use(logger); // logging middleware
 
@@ -25,6 +26,9 @@ app.use("/api/auth", authRoutes);
 app.use("/api/tasks", taskRoutes);
 
 const PORT = process.env.PORT || 5000;
+
+//cron jobs for email notification send
+scheduleTaskChecker();
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
