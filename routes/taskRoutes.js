@@ -9,4 +9,6 @@ router.post("/create", taskController.createTask); // Create
 router.get("/complete", taskController.completeTask); // Complete
 router.get("/", taskController.getUserTasks); // List
 
+router.get("/:taskId/history", taskController.getTaskHistory);
+
 module.exports = router;
