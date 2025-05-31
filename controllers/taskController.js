@@ -93,7 +93,7 @@ exports.getUserTasks = async (req, res) => {
   const userId = req.user.id;
   try {
     const tasks = await db.query(`SELECT * FROM tasks WHERE user_id = ?`, [userId]);
-    res.json(tasks);
+    res.status(200).json({ data : tasks})
   } catch (err) {
     res.status(500).json({ message: "Server error" });
   }
