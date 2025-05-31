@@ -6,6 +6,7 @@ const authMiddleware = require("../middleware/authMiddleware");
 router.use(authMiddleware);
 
 router.post("/create", taskController.createTask); // Create
+router.post("/update/:taskId", taskController.updateTask); // Create
 router.get("/complete", taskController.completeTask); // Complete
 router.get("/", taskController.getUserTasks); // List
 

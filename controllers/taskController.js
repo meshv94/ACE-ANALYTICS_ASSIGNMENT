@@ -9,7 +9,7 @@ exports.createTask = async (req, res) => {
         return res.status(400).json({ message: "Missing required fields" });
     }
 
-    if (recurrence !== "none" || recurrence !== "daily" || recurrence !== "weekly" || recurrence !== "monthly") {
+    if (recurrence !== "none" && recurrence !== "daily" && recurrence !== "weekly" && recurrence !== "monthly") {
         recurrence = "none"
     }
 
@@ -20,6 +20,31 @@ exports.createTask = async (req, res) => {
             [userId, title, description, due_date, priority, recurrence || "none"]
         );
         res.status(201).json({ message: "Task created successfully" });
+    } catch (err) {
+        console.error("Create Task Error:", err);
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
+exports.updateTask = async (req, res) => {
+    let { title, description, due_date, priority, recurrence } = req.body;
+    const userId = req.user.id;
+    const TaskId = req.params.taskId;
+
+    if (!title || !due_date || !priority) {
+        return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    if (recurrence !== "none" && recurrence !== "daily" && recurrence !== "weekly" && recurrence !== "monthly") {
+        recurrence = "none"
+    }
+
+    try {
+        await db.query(
+            `UPDATE tasks SET title = ?, description = ?, due_date = ?, priority = ?, recurrence = ? WHERE user_id = ? AND id = ?`,
+            [title, description, due_date, priority, recurrence, userId, TaskId]
+        );
+        res.status(200).json({ message: "Task Updated successfully" });
     } catch (err) {
         console.error("Create Task Error:", err);
         res.status(500).json({ message: "Server error" });
