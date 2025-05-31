@@ -4,6 +4,10 @@ const app = express();
 
 const authRoutes = require("./routes/authRoutes");
 const taskRoutes = require("./routes/taskRoutes");
+const logger = require("./middleware/logger");
+
+app.use(logger); // logging middleware
+
 
 const db = require("./db");
 
