@@ -1,12 +1,13 @@
------ commands i have used in db --------
-
 CREATE DATABASE IF NOT EXISTS task_db;
 USE task_db;
 
 CREATE TABLE IF NOT EXISTS users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   email VARCHAR(255) NOT NULL UNIQUE,
-  password VARCHAR(255) NOT NULL
+  password VARCHAR(255) NOT NULL,
+  is_verified BOOLEAN DEFAULT FALSE,
+  otp VARCHAR(10),
+  otp_expires DATETIME
 );
 
 CREATE TABLE IF NOT EXISTS tasks (
@@ -28,6 +29,16 @@ CREATE TABLE IF NOT EXISTS task_history (
   new_status ENUM('pending', 'completed'),
   changed_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS notifications (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  task_id INT,
+  user_id INT,
+  sent_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  type VARCHAR(50),
+  FOREIGN KEY (task_id) REFERENCES tasks(id),
+  FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 ALTER TABLE users
