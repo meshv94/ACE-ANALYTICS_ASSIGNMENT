@@ -94,6 +94,7 @@ When a **recurring task** is marked as completed, a new task is automatically cr
 | Method | Endpoint                          | Description            |
 | ------ | --------------------------------- | ---------------------- |
 | POST   | `/api/auth/register`              | Register a new user    |
+| POST   | `/api/auth/verify-otp`            | verify otp             |
 | POST   | `/api/auth/login`                 | Login and receive JWT  |
 | POST   | `/api/tasks/create`               | Create a new task      |
 | GET    | `/api/tasks`                      | Get all tasks for user |
