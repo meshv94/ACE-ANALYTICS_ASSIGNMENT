@@ -9,7 +9,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const sendEmail = async (to, subject, text) => {
+const sendEmailReminders = async (to, subject, text) => {
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to,
@@ -25,4 +25,23 @@ const sendEmail = async (to, subject, text) => {
   }
 };
 
-module.exports = sendEmail;
+const sendEmailOTP = async (to, otp) => {
+    let subject = 'Verify Your Email'
+    let text = `Your OTP code is: ${otp}. It expires in 10 minutes.`
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to,
+      subject,
+      text,
+    };
+  
+    try {
+      await transporter.sendMail(mailOptions);
+      console.log(`Success ------------------ Email sent to ${to}`);
+    } catch (error) {
+      console.error(`Failed --------------------- to send email to ${to}:`, error.message);
+    }
+  };
+
+module.exports = { sendEmailReminders , sendEmailOTP };

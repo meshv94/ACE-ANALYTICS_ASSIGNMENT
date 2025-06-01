@@ -24,7 +24,7 @@ const scheduleTaskChecker = () => {
             for (const task of tasks) {
                 const subject = `⏰ Reminder: Task "${task.title}" is due soon`;
                 const message = `Your task "${task.title}" is due at ${task.due_date}. Don't forget to complete it!`;
-                await sendEmail(task.email, subject, message);
+                await sendEmail.sendEmailReminders(task.email, subject, message);
             }
         } catch (err) {
             console.error("Error checking tasks:", err.message);
