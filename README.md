@@ -1,115 +1,119 @@
+
 # 🧠 Task Scheduler Backend API
 
-A backend system that allows users to create, manage, and get notified about tasks. Built with Node.js, Express, MySQL (via `mysql2`), raw SQL, and JWT authentication.
+A backend system that allows users to create, manage, and get notified about tasks. Built with **Node.js**, **Express**, **MySQL** (via `mysql2`), **raw SQL**, and **JWT authentication**.
 
 ---
 
 ## 🔑 Features
 
-* ✅ User Authentication (JWT-based)
-* ✅ Task creation, update, and completion
-* 🔁 Recurring Tasks (daily, weekly, monthly)
-* 📬 Email Notifications (1 hour before due)
+* ✅ JWT-based User Authentication
+* ✅ Create, Update, and Mark Tasks as Completed
+* 🔁 Recurring Tasks (Daily, Weekly, Monthly)
+* 📬 Email Notifications (1 hour before task due time)
 * 📜 Task History Tracking
-* 🧠 Built with raw SQL (no ORM)
-* 🔒 Protected API routes using middleware
-* ⏰ Background scheduler using Cron
+* 🧠 Uses **raw SQL** (No ORM like Sequelize or Prisma)
+* 🔒 Middleware-Protected Routes
+* ⏰ Background Job Scheduling using **Cron**
 
 ---
 
 ## 🚀 Tech Stack
 
-* Node.js
-* Express.js
-* MySQL (`mysql2`)
-* Nodemailer (email)
-* JWT for auth
-* Cron for background tasks
+* **Node.js**
+* **Express.js**
+* **MySQL** (`mysql2`)
+* **Nodemailer** (for emails)
+* **JWT** (for auth)
+* **node-cron** (for scheduling)
 
 ---
 
 ## 📦 Setup Instructions
 
-1. **Clone repo**
+### 1. **Install Dependencies**
 
-   ```bash
-   git clone https://github.com/yourusername/task-scheduler-api.git
-   cd task-scheduler-api
-   ```
+```bash
+npm install
+```
 
-2. **Install dependencies**
+### 2. **Start MySQL & Import Database**
 
-   ```bash
-   npm install
-   ```
+* Open **XAMPP**
+* Start **Apache** & **MySQL**
+* Import the `task_db.sql` file from the `db/` directory into **phpMyAdmin**
 
-3. **Start MySQL and import database**
+### 3. **Configure Environment Variables**
 
-   * Open XAMPP, start Apache & MySQL
-   * Import `task_db.sql` from the `db/` folder
+Create a `.env` file in the root folder:
 
-4. **Configure `.env`**
+```env
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=
+DB_NAME=task_db
 
-   ```env
-   DB_HOST=localhost
-  DB_PORT=3306
-  DB_USER=root
-  DB_PASSWORD=
-  DB_NAME=task_db
-  JWT_SECRET=your_jwt_secret_key
-  JWT_EXPIRES_IN=1d
-  EMAIL_USER=
-  EMAIL_PASS=
-   ```
+JWT_SECRET=your_jwt_secret_key
+JWT_EXPIRES_IN=1d
 
-5. **Start server**
+EMAIL_USER=your_email@gmail.com
+EMAIL_PASS=your_gmail_app_password
+```
 
-   ```bash
-    nvm use 20.17.0
-   npm run dev
-   ```
+> 🔐 Use a [Gmail App Password](https://support.google.com/mail/answer/185833?hl=en) instead of your actual password
+
+### 4. **Start Development Server**
+
+```bash
+nvm use 20.17.0
+npm run dev
+```
 
 ---
 
-## 📬 Email Notification Setup
+## 📮 Email Notification Setup
 
-* You must use a Gmail **App Password**
-* Set in `.env`:
-
-  ```env
-  EMAIL_USER=your_email
-  EMAIL_PASS=your_app_password
-  ```
+* Uses **Nodemailer** to send reminders 1 hour before a task's due date
+* Email credentials must be set in `.env` as shown above
 
 ---
 
 ## 🔁 Recurring Task Logic
 
-When a recurring task is marked as completed, a new one is created with the next due date automatically.
+When a **recurring task** is marked as completed, a new task is automatically created with the next calculated due date based on the recurrence type:
+
+* `daily` → next day
+* `weekly` → same time next week
+* `monthly` → same time next month
 
 ---
 
 ## 📮 API Endpoints
 
-| Method | Endpoint                | Description            |
-| ------ | ----------------------- | ---------------------- |
-| POST   | /api/auth/register      | Register user          |
-| POST   | /api/auth/login         | Login and get JWT      |
-| POST   | /api/tasks/create        | Create task            |
-| GET    | /api/tasks               | Get all task |
-| GET    | /api/tasks/complete?TaskId={value} | Mark task as completed |
-| POST  | /api/tasks/update/\:id   | Update task details    |
-| GET    | /api/task/\:id/history  | View task history      |
+| Method | Endpoint                          | Description            |
+| ------ | --------------------------------- | ---------------------- |
+| POST   | `/api/auth/register`              | Register a new user    |
+| POST   | `/api/auth/login`                 | Login and receive JWT  |
+| POST   | `/api/tasks/create`               | Create a new task      |
+| GET    | `/api/tasks`                      | Get all tasks for user |
+| GET    | `/api/tasks/complete?TaskId={id}` | Mark task as completed |
+| POST   | `/api/tasks/update/:id`           | Update a task          |
+| GET    | `/api/task/:id/history`           | Get task history       |
 
-🔐 Protected routes require:
+> 🔐 **All task routes are protected**
+> Use the following header:
 
+```http
+Authorization: Bearer <your_jwt_token>
 ```
-Authorization: Bearer <your_token>
-```
-
 
 ---
 
 ## 👨‍💼 Author
 
-Made by Meshv Patel for interview round 🚀
+Built by **Meshv Patel** for a backend engineering interview round 🚀
+
+📧 Email: [meshv1444@gmail.com](mailto:meshv1444@gmail.com)
+
+---
